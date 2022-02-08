@@ -1,0 +1,20 @@
+.sider-menu {
+  height: 100%;
+  border-right: 0;
+}
+
+.inner-layout {
+  padding: 0 12px 12px;
+}
+
+nz-content {
+  background: #f0f2f5;
+  padding: 24px;
+  min-height: 280px;
+}
+
+.grid-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  gap: 12px 12px;
+}

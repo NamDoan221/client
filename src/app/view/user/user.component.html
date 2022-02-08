@@ -1,0 +1,48 @@
+<nz-layout class="h-100">
+  <nz-header>
+    <div class="logo d-flex justify-content-center align-items-center ms-cursor-pointer"
+      (click)="backToProduct($event)">
+      <i nz-icon
+        nzType="dingding"
+        nzTheme="outline"
+        class="ms-font-size-20px ms-color-4cb7ff"></i>
+      <div class="ms-font-size-12px ms-m-0 ms-ml-8px">Man Shop</div>
+    </div>
+    <div class="d-flex justify-content-end align-items-center h-100 ms-cursor-pointer">
+      <div class="d-flex"
+        (click)="handlerViewCart($event)">
+        <i nz-icon
+          nzType="shopping-cart"
+          nzTheme="outline"
+          class="ms-font-size-20px ms-color-ffffff position-relative">
+          <div *ngIf="productInCart > 0"
+            class="ms-bg-ffffff ms-py-2px ms-px-4px ms-border-radius-8px position-absolute ms-right--6px ms-top--6px">
+            <div class="ms-color-ff5454 ms-font-size-10px">{{productInCart}}</div>
+          </div>
+        </i>
+      </div>
+      <div class="d-flex ms-ml-16px position-relative avatar">
+        <nz-avatar nzIcon="user"
+          [nzSrc]="user ? user.avatar : ''"></nz-avatar>
+        <div
+          class="action position-absolute ms-bg-ffffff ms-z-index-10 ms-py-2px ms-px-4px ms-w-100px ms-cursor-pointer ms-top-30px ms-right-0 ms-border-general">
+          <ng-container *ngIf="user">
+            <div class="ms-font-head-5 ms-p-8px ms-hover-4cb7ff"
+              (click)="handlerOrder($event)">Đơn hàng</div>
+            <div class="ms-font-head-5 ms-p-8px ms-hover-4cb7ff"
+              (click)="handlerLogout($event)">Đăng xuất</div>
+          </ng-container>
+          <ng-container *ngIf="!user">
+            <div class="ms-font-head-5 ms-p-8px ms-hover-4cb7ff"
+              (click)="handlerLogin($event)">Đăng nhập</div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </nz-header>
+  <nz-layout>
+    <div class="h-100">
+      <router-outlet></router-outlet>
+    </div>
+  </nz-layout>
+</nz-layout>

@@ -1,0 +1,19 @@
+<div class="ms-bg-ffffff ms-border-radius-12px ms-p-12px ms-border-general">
+  <div class="w-100 ms-h-212px">
+    <img [src]="product.image || product.image[0]"
+      alt=""
+      class="w-100 h-100">
+  </div>
+  <div class="ms-pt-8px ms-font-head-4s ms-cursor-pointer" (click)="handlerViewDetail($event)">
+    {{product.name}}
+  </div>
+  <div class="ms-pt-4px ms-font-head-5">
+    {{product.description}}
+  </div>
+  <div class="ms-color-ff5454 ms-pt-4px ms-font-head-5">
+    {{product.price | MsFormatNumberPipe }} VND
+  </div>
+  <div class="d-flex justify-content-center ms-mt-16px">
+    <button nz-button nzType="primary" class="ms-font-head-5" (click)="handlerAddToCart($event)">Mua ngay</button>
+  </div>
+</div>

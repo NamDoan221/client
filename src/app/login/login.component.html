@@ -1,0 +1,32 @@
+
+<div class="d-flex h-100 w-100 justify-content-center align-items-center">
+  <div class="ms-bg-ffffff ms-w-681px container">
+    <div class="ms-my-20px">
+      <div class="d-flex justify-content-center align-items-center">
+        <i nz-icon nzType="dingding" nzTheme="outline" class="ms-font-size-60px ms-color-4cb7ff"></i>
+        <div class="ms-font-size-20px ms-m-0">Man Shop</div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-start align-items-center ms-my-20px flex-column">
+      <span class="ms-mb-4px w-70">Tên tài khoản</span>
+      <nz-input-group [nzPrefix]="prefixTemplateUser" class="w-70 ms-border-radius-4px">
+        <input type="text" nz-input placeholder="Nhập tên tài khoản" [(ngModel)]="user.email"/>
+      </nz-input-group>
+      <ng-template #prefixTemplateUser><i nz-icon nzType="user" class="ms-mr-5px"></i></ng-template>
+    </div>
+    <div class="d-flex justify-content-start align-items-center ms-my-20px flex-column">
+      <span class="ms-mb-4px w-70">Mật khẩu</span>
+      <nz-input-group [nzPrefix]="prefixTemplatePassword" [nzSuffix]="suffixTemplate" class="w-70 ms-border-radius-4px">
+        <input [type]="passwordVisible ? 'text' : 'password'" nz-input placeholder="Nhập mật khẩu" [(ngModel)]="user.password" />
+      </nz-input-group>
+      <ng-template #prefixTemplatePassword><i nz-icon nzType="unlock" class="hn-mr-5px"></i></ng-template>
+      <ng-template #suffixTemplate>
+        <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'" (click)="onChangeViewPassword()"></i>
+      </ng-template>
+    </div>
+    <div class="d-flex justify-content-center align-items-center ms-my-30px">
+      <button nz-button nzType="primary" [nzLoading]="onLogin" class="ms-font-head-5" (click)="handlerLogin()">Login</button>
+      <button nz-button nzType="primary" class="ms-ml-20px ms-font-head-5" (click)="handlerSignUp()">Sign up</button>
+    </div>
+  </div>
+</div>

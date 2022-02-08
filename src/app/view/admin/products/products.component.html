@@ -1,0 +1,141 @@
+<div class="d-flex align-items-center">
+  <div>
+    <button nz-button
+    nzType="primary"
+    class="ms-font-head-5"
+    (click)="handlerAdd()"><i nz-icon nzType="plus"></i>Thêm sản phẩm mới</button>
+  </div>
+  <div class="ms-max-width-500px ms-py-12px ms-ml-auto">
+    <nz-input-group [nzSuffix]="suffixIconSearch">
+      <input type="text"
+        class="ms-border-radius-4px ms-font-head-5s"
+        nz-input
+        placeholder="Tìm theo tên sản phẩm"
+        [(ngModel)]="filterProduct.search"
+        (change)="handlerSearchProduct($event)" />
+    </nz-input-group>
+    <ng-template #suffixIconSearch>
+      <i nz-icon
+        nzType="search"></i>
+    </ng-template>
+  </div>
+</div>
+
+<div class="ms-calc-h-54px">
+  <div class="grid-box ms-bg-ffffff ms-border-general ms-p-12px">
+    <div class="ms-font-head-5s">Ảnh sản phẩm</div>
+    <div class="ms-font-head-5s">Tên sản phẩm</div>
+    <div class="ms-font-head-5s">Danh mục</div>
+    <div class="ms-font-head-5s">Giá</div>
+    <div class="ms-font-head-5s">Tồn kho</div>
+    <div class="ms-font-head-5s">Nhà cung cấp</div>
+  </div>
+  <div class="ms-calc-h-44px ms-bg-ffffff ms-border-general ms-border-top-none ms-overflow-auto">
+    <ng-container *ngIf="productList && productList.length">
+      <div *ngFor="let data of productList; index as i;"
+        class="grid-box ms-border-bottom-general ms-p-12px position-relative"
+        [ngClass]="{'ms-bg-f0f2f5': i === indexHover}"
+        (mouseleave)="resetIndexHover($event)"
+        (mouseenter)="setIndexHover($event, i)">
+        <div class="ms-w-30px ms-h-30px ms-border-general">
+          <img [src]="data.image[0]" class="w-100 h-100" />
+        </div>
+        <div class="d-flex align-items-center">{{ data.name }}</div>
+        <div class="d-flex align-items-center">{{ data.category ? data.category: '__'}}</div>
+        <div class="d-flex align-items-center">{{ data.price | MsFormatNumberPipe }} VNĐ</div>
+        <div class="d-flex align-items-center">{{ data.source_created ? data.source_created : 0 }}</div>
+        <div class="d-flex align-items-center">{{ data.supplier ? data.supplier : '__' }}</div>
+        <div *ngIf="i === indexHover"
+          class="position-absolute ms-left-350px ms-top-12px">
+          <div class="d-flex">
+            <button nz-button
+              nzType="primary"
+              class="ms-font-head-5 ms-mr-12px"
+              (click)="handlerEdit(data)">Sửa</button>
+              <button nz-button
+              nzType="primary"
+              nzDanger
+              class="ms-font-head-5"
+              (click)="handlerDelete(data)">Xóa</button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="!productList || !productList.length">
+      <div class="d-flex justify-content-center align-items-center h-100">{{'Danh sách trống'}}</div>
+    </ng-container>
+  </div>
+</div>
+
+<!-- <nz-modal [(nzVisible)]="isVisible"
+  [nzTitle]="productSelected._id ? 'Sửa sản phẩm' : 'Tạo mới sản phẩm'">
+  <ng-container *nzModalContent>
+    <div class="d-flex flex-column">
+      <span class="ms-mb-4px">Tên tài khoản (Email)</span>
+      <nz-input-group class="w-100">
+        <input type="text"
+        [ngClass]="{'ms-readonly': productSelected._id}"
+          class="ms-border-radius-4px"
+          nz-input
+          placeholder="Nhập tên tài khoản"
+          [(ngModel)]="userSelected.email" />
+      </nz-input-group>
+    </div>
+    <div class="d-flex flex-column ms-mt-16px">
+      <span class="ms-mb-4px">Mật khẩu</span>
+      <nz-input-group class="w-100">
+        <input type="text"
+        [ngClass]="{'ms-readonly': userSelected._id}"
+          class="ms-border-radius-4px"
+          nz-input
+          placeholder="Nhập mật khẩu"
+          [(ngModel)]="userSelected.password" />
+      </nz-input-group>
+    </div>
+    <div class="d-flex flex-column ms-mt-16px">
+      <span class="ms-mb-4px">Họ và tên</span>
+      <nz-input-group class="w-100">
+        <input type="text"
+          class="ms-border-radius-4px"
+          nz-input
+          placeholder="Nhập họ và tên"
+          [(ngModel)]="userSelected.name" />
+      </nz-input-group>
+    </div>
+    <div class="d-flex flex-column ms-mt-16px">
+      <span class="ms-mb-4px">Avatar</span>
+      <nz-input-group class="w-100">
+        <input type="text"
+          class="ms-border-radius-4px"
+          nz-input
+          placeholder="Nhập avatar"
+          [(ngModel)]="userSelected.avatar" />
+      </nz-input-group>
+    </div>
+    <div class="d-flex flex-column ms-mt-16px">
+      <span class="ms-mb-4px">Địa chỉ</span>
+      <nz-input-group class="w-100">
+        <input type="text"
+          class="ms-border-radius-4px"
+          nz-input
+          placeholder="Nhập địa chỉ"
+          [(ngModel)]="userSelected.address" />
+      </nz-input-group>
+    </div>
+    <div class="d-flex align-items-center ms-mt-16px">
+      <input type="checkbox"
+        [checked]="userSelected.isAdmin"
+        (change)="handlerChangeChecked()" />
+      <span class="ms-ml-8px">Tài khoản admin</span>
+    </div>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button
+      nzType="default"
+      (click)="handleCancel()">Hủy bỏ</button>
+    <button nz-button
+      nzType="primary"
+      (click)="handleSave()"
+      [nzLoading]="isConfirmLoading">Lưu</button>
+  </div>
+</nz-modal> -->

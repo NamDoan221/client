@@ -1,0 +1,54 @@
+<div class="d-flex h-100">
+  <nz-sider nzWidth="200px"
+    nzTheme="light"
+    class="ms-border-right-general">
+    <ul nz-menu
+      nzMode="inline"
+      class="sider-menu">
+      <li nz-submenu
+        nzOpen
+        nzTitle="Danh mục sản phẩm"
+        class="ms-font-head-5">
+        <ul>
+          <li nz-menu-item
+            class="ms-font-head-5 ms-h-32px"
+            *ngFor="let item of productCategory"
+            (click)="handlerSearchByCategory(item)">{{item.name}}</li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout class="inner-layout">
+    <div class="ms-max-width-500px ms-py-12px ms-ml-auto">
+      <nz-input-group [nzSuffix]="suffixIconSearch">
+        <input type="text"
+          class="ms-border-radius-4px ms-font-head-5"
+          nz-input
+          placeholder="Tìm theo tên sản phẩm"
+          [(ngModel)]="filterProduct.search"
+          (change)="handlerSearchProduct($event)" />
+      </nz-input-group>
+      <ng-template #suffixIconSearch>
+        <i nz-icon
+          nzType="search"></i>
+      </ng-template>
+    </div>
+    <nz-content class="ms-overflow-auto">
+      <div class="grid-box"
+        *ngIf="!loading">
+        <ng-container *ngFor="let product of products; index as i">
+          <app-view-user-product_list-item [product]="product"
+            (addProductToCart)="handlerAddProductToCart($event)"></app-view-user-product_list-item>
+        </ng-container>
+      </div>
+      <div class="w-100 h-100 d-flex justify-content-center align-items-center"
+        *ngIf="loading">
+        <ng-template #indicatorTemplate><i nz-icon
+            nzType="loading"
+            class="ms-font-size-60px"></i></ng-template>
+        <nz-spin nzSimple
+          [nzIndicator]="indicatorTemplate"></nz-spin>
+      </div>
+    </nz-content>
+  </nz-layout>
+</div>

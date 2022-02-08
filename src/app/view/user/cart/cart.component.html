@@ -1,0 +1,60 @@
+<div class="h-100"
+  *ngIf="!loading">
+  <div class="ms-overflow-auto ms-calc-h-65px">
+    <ng-container *ngIf="cartData && cartData.products">
+      <ng-container *ngFor="let product of cartData.products">
+        <div
+          class="d-flex align-items-center justify-content-between ms-border-general ms-p-12px ms-bg-ffffff ms-border-radius-4px ms-max-width-1066px ms-mx-auto ms-mt-12px">
+          <div class="d-flex align-items-center">
+            <input type="checkbox"
+              [checked]="product.checked"
+              (change)="handlerChangeChecked(product)" />
+            <div class="d-flex align-items-center ms-ml-12px">
+              <div class="ms-w-30px ms-h-30px">
+                <img [src]="product.image"
+                  alt=""
+                  class="w-100 h-100">
+              </div>
+              <span class="ms-ml-8px">{{product.name}}</span>
+            </div>
+          </div>
+          <div>
+            <div class="d-flex align-items-center justify-content-end">
+              <div class="ms-border-general ms-px-6px ms-py-2px ms-cursor-pointer">
+                <i nz-icon
+                  nzType="plus"
+                  nzTheme="outline"
+                  class="ms-font-size-12px"></i>
+              </div>
+              <div class="ms-px-8px ms-py-2px ms-readonly ms-border-top-general ms-border-bottom-general">
+                {{product.quantily | MsFormatNumberPipe}}</div>
+              <div class="ms-border-general ms-px-6px ms-py-2px ms-cursor-pointer">
+                <i nz-icon
+                  nzType="minus"
+                  nzTheme="outline"
+                  class="ms-font-size-12px"></i>
+              </div>
+            </div>
+            <div class="ms-mt-8px ms-color-ff5454">Thành tiền: {{ (product.price * product.quantily) |
+              MsFormatNumberPipe}} VND</div>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+  <div class="d-flex justify-content-end ms-my-16px ms-mr-40px">
+    <div class="ms-mt-8px ms-color-ff5454 ms-mr-12px">Tổng tiền: {{ total | MsFormatNumberPipe }} VND</div>
+    <button nz-button
+      nzType="primary"
+      class="ms-font-head-5"
+      (click)="handlerOrder($event)">Đặt hàng</button>
+  </div>
+</div>
+<div class="w-100 h-100 d-flex justify-content-center align-items-center"
+  *ngIf="loading">
+  <ng-template #indicatorTemplate><i nz-icon
+      nzType="loading"
+      class="ms-font-size-60px"></i></ng-template>
+  <nz-spin nzSimple
+    [nzIndicator]="indicatorTemplate"></nz-spin>
+</div>

@@ -1,0 +1,18 @@
+.logo {
+  width: 120px;
+  height: 31px;
+  background: #ffffff;
+  margin: 16px 30px 16px 0;
+  float: left;
+}
+
+.avatar {
+  .action {
+    display: none;
+  }
+  &:hover {
+    .action {
+      display: block;
+    }
+  }
+}

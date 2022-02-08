@@ -1,0 +1,71 @@
+<nz-layout class="app-layout">
+  <nz-sider class="menu-sidebar"
+    nzCollapsible
+    nzWidth="256px"
+    nzBreakpoint="md"
+    [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null">
+    <div class="sidebar-logo">
+      <i nz-icon
+        nzType="dingding"
+        nzTheme="outline"
+        class="ms-font-size-30px ms-color-ffffff"></i>
+      <h1 class="ms-mb-12px">Man Shop</h1>
+    </div>
+    <ul nz-menu
+      nzTheme="dark"
+      nzMode="inline"
+      [nzInlineCollapsed]="isCollapsed">
+      <li nz-submenu
+        nzOpen
+        nzTitle="Quản lý"
+        nzIcon="user">
+        <ul>
+          <li nz-menu-item
+            nzMatchRouter>
+            <a routerLink="users"
+              class="ms-text-decorations-none">Khách hàng</a>
+          </li>
+          <li nz-menu-item
+            nzMatchRouter>
+            <a routerLink="products"
+              class="ms-text-decorations-none">Sản phẩm</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu
+        nzOpen
+        nzTitle="Cài đặt"
+        nzIcon="setting">
+        <ul>
+          <li nz-menu-item
+            nzMatchRouter>
+            <a routerLink="account"
+              class="ms-text-decorations-none">Tôi</a>
+          </li>
+          <li nz-menu-item
+            nzMatchRouter>
+            <a (click)="handlerLogout()">Đăng xuất</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div class="app-header">
+        <span class="header-trigger"
+          (click)="isCollapsed = !isCollapsed">
+          <i class="trigger"
+            nz-icon
+            [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
+        </span>
+      </div>
+    </nz-header>
+    <nz-content>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
