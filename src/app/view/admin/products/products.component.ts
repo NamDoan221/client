@@ -1,6 +1,7 @@
 import { cloneDeep } from 'lodash';
 import { Component, OnInit } from '@angular/core';
 import { ProductLibraryService } from 'src/app/shared/services/product-library.service';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-view-admin-products',
@@ -16,7 +17,8 @@ export class ProductsComponent implements OnInit {
   private productDefault: any;
   indexHover: number;
   constructor(
-    private productLibraryService: ProductLibraryService
+    private productLibraryService: ProductLibraryService,
+    private modal: NzModalService
   ) {
     this.productList = [];
     this.filterProduct = {
@@ -25,10 +27,11 @@ export class ProductsComponent implements OnInit {
     this.isVisible = false;
     this.indexHover = -1;
     this.productDefault = {
+      image: undefined,
+      inventory: undefined,
       name: undefined,
-      email: undefined,
-      address: undefined,
-      isAdmin: false
+      price: undefined,
+      supplier: undefined
     };
     this.productSelected = cloneDeep(this.productDefault);
   }
@@ -76,50 +79,61 @@ export class ProductsComponent implements OnInit {
     this.productSelected.isAdmin = !this.productSelected.isAdmin;
   }
 
-  handleSave() {
+  handlerSave() {
     this.isVisible = false;
     if (this.productSelected._id) {
-      return this.updateUser();
+      return this.updateProduct();
     }
-    this.addUser();
+    this.addProduct();
   }
 
-  async updateUser() {
-    // try {
-    //   const result = await this.usersService.updateUser(this.userSelected._id, this.userSelected);
-    //   this.usersList = this.usersList.map(item => {
-    //     if (item._id === this.userSelected._id) {
-    //       return this.userSelected;
-    //     }
-    //     return item;
-    //   })
-    // } catch (error) {
-    //   console.log(error);
-    // }
+  async updateProduct() {
+    try {
+      const result = await this.productLibraryService.updateProduct(this.productSelected._id, this.productSelected);
+      this.productList = this.productList.map(item => {
+        if (item._id === this.productSelected._id) {
+          return this.productSelected;
+        }
+        return item;
+      })
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  async addUser() {
-    // try {
-    //   const result = await this.usersService.addUser(this.userSelected);
-    //   this.usersList = [result, ...this.usersList];
-    // } catch (error) {
-    //   console.log(error);
-    // }
+  async addProduct() {
+    try {
+      const result = await this.productLibraryService.addProduct(this.productSelected);
+      this.productList = [result, ...this.productList];
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  handleCancel(): void {
+  handlerCancel(): void {
     this.isVisible = false;
   }
 
-  async handlerDelete(user) {
-    // try {
-    //   const result = await this.usersService.deleteUser(user._id);
-    //   const users = cloneDeep(this.usersList).filter(item => {
-    //     return item._id !== user._id;
-    //   });
-    //   this.usersList = users;
-    // } catch (error) {
-    //   console.log(error);
-    // }
+  async handlerDelete(product) {
+    this.modal.confirm({
+      nzTitle: '<span class="ms-font-head-5s">Bạn có muốn xóa sản phẩm này?</span>',
+      nzContent: `<span class="ms-font-head-5">Sản phẩm:</span> <span class="ms-font-head-5s">${product.name}</span>`,
+      nzOkText: 'Đồng ý',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: async () => {
+        try {
+          const result = await this.productLibraryService.deleteProduct(product._id);
+          const users = cloneDeep(this.productList).filter(item => {
+            return item._id !== product._id;
+          });
+          this.productList = users;
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      nzCancelText: 'Hủy bỏ'
+    });
+    
   }
 }

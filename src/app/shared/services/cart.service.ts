@@ -32,11 +32,17 @@ export class CartService {
     });
   }
 
-  public addProductToCart(body: any): Promise<any> {
+  public addProductToCart(body: any, params?: any): Promise<any> {
     const options = this.createHeaderOption();
     const tokenDecode = options.headers && options.headers['x-access-token'] ? jwt_decode(options.headers['x-access-token']) : { id: this.id_generate };
     options.params = {
       id_customer: tokenDecode['id']
+    }
+    if (params) {
+      options.params = {
+        ...options.params,
+        ...params
+      }
     }
     return new Promise((resolve, reject) => {
       this.http.put(`${DOMAIN_SITE()}api/cart`, body, options).subscribe(result => {

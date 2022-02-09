@@ -64,7 +64,8 @@
 </div>
 
 <nz-modal [(nzVisible)]="isVisible"
-  [nzTitle]="userSelected._id ? 'Sửa thông tin khách hàng' : 'Tạo mới khách hàng'">
+  [nzTitle]="userSelected._id ? 'Sửa thông tin khách hàng' : 'Tạo mới khách hàng'"
+  (nzOnCancel)="handlerCancel()">
   <ng-container *nzModalContent>
     <div class="d-flex flex-column">
       <span class="ms-mb-4px">Tên khách hàng (Email)</span>

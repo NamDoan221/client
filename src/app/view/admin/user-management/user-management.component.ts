@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { UsersService } from 'src/app/shared/services/users.service';
 import ResizeObserver from 'resize-observer-polyfill';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-view-admin-user_management',
@@ -20,7 +19,6 @@ export class UserManagementComponent implements OnInit {
   indexHover: number;
   constructor(
     private modal: NzModalService,
-    private auth: AuthService,
     private usersService: UsersService
   ) {
     this.usersList = [];
@@ -136,10 +134,6 @@ export class UserManagementComponent implements OnInit {
       },
       nzCancelText: 'Hủy bỏ'
     });
-  }
-
-  backToAdmin() {
-    console.log('alo');
   }
 
 }

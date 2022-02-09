@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { CartService } from 'src/app/shared/services/cart.service';
@@ -8,7 +8,8 @@ import { OrderService } from 'src/app/shared/services/order.service';
 @Component({
   selector: 'app-view-user-cart',
   templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.scss']
+  styleUrls: ['./cart.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CartComponent implements OnInit {
 
@@ -20,7 +21,8 @@ export class CartComponent implements OnInit {
     private router: Router,
     private cartService: CartService,
     private auth: AuthService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private cdr: ChangeDetectorRef
   ) {
     this.total = 0;
     this.order = {
@@ -50,6 +52,7 @@ export class CartComponent implements OnInit {
           }
         })
       }
+      this.cdr.detectChanges();
       this.loading = false;
     } catch (error) {
       this.loading = false;
@@ -67,8 +70,9 @@ export class CartComponent implements OnInit {
     this.order.name = cloneDeep(this.order.products).map(item => item.name).join(', ');
     this.order.products = this.order.products.map(item => {
       delete item.checked;
+      delete item.price;
       return item;
-    })
+    });
     try {
       const result = await this.orderService.createOrder(this.order);
       console.log(result);
@@ -92,6 +96,21 @@ export class CartComponent implements OnInit {
     this.total -= totalPriceProduct;
     this.order.totalMoney = this.total;
     this.order.products = this.order.products.length && this.order.products.filter(item => item._id !== product._id)
+  }
+
+  async handlerAddOne(event) {
+    try {
+      const result = await this.cartService.addProductToCart(event, { type: 'add' });
+      this.cartData.products = cloneDeep(this.cartData.products).map(item => {
+        if (item._id === event) {
+          item.quantily++;
+        }
+        return item;
+      });
+      this.cdr.detectChanges();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
 }

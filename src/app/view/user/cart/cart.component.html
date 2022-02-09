@@ -24,7 +24,8 @@
                 <i nz-icon
                   nzType="plus"
                   nzTheme="outline"
-                  class="ms-font-size-12px"></i>
+                  class="ms-font-size-12px"
+                  (click)="handlerAddOne(product)"></i>
               </div>
               <div class="ms-px-8px ms-py-2px ms-readonly ms-border-top-general ms-border-bottom-general">
                 {{product.quantily | MsFormatNumberPipe}}</div>
