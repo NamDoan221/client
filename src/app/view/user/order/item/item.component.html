@@ -1,0 +1,27 @@
+<ng-container *ngIf="status | MsCheckOrderPipe:orderData">
+  <ng-container *ngFor="let item of orderData">
+    <div *ngIf="item.status === status"
+      class="ms-border-bottom-general ms-pb-4px ms-mt-8px">
+      <div>
+        <div *ngFor="let product of item.products"
+          class="d-flex ms-p-8px ms-border-top-general">
+          <img [src]="product.image"
+            alt=""
+            class="ms-border-general ms-w-30px ms-h-30px">
+          <div class="ms-ml-8px">
+            <div class="ms-font-head-5s">{{product.name}}</div>
+            <div>Số lượng: {{product.quantily}}</div>
+          </div>
+        </div>
+        <div class="ms-mx-8px d-flex align-items-center"
+          [ngClass]="{'justify-content-between': status === 0, 'justify-content-end': status !== 0}">
+          <div *ngIf="status === 0"><button nz-button
+              nzType="primary"
+              class="ms-font-head-5 ms-h-24px ms-px-8px"
+              (click)="handlerCancelOrder($event)">Hủy đơn hàng</button></div>
+          <div class="ms-color-ff5454 text-right"> Tổng tiền: {{item.totalMoney | MsFormatNumberPipe}} VND</div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>

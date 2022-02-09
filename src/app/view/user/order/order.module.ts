@@ -9,6 +9,8 @@ import { IconsProviderModule } from 'src/app/shared/icon-ant/icons-provider.modu
 import { MsFormatNumberPipeModule } from 'src/app/shared/pipes/format-number.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OrderComponent } from './order.component';
+import { ItemComponent } from './item/item.component';
+import { MsCheckOrderPipeModule } from 'src/app/shared/pipes/check-order.pipe';
 
 const routes: Routes = [
   {
@@ -18,7 +20,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [OrderComponent],
+  declarations: [OrderComponent, ItemComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -29,7 +31,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     NzSpinModule,
     NzButtonModule,
-    MsFormatNumberPipeModule
+    MsFormatNumberPipeModule,
+    MsCheckOrderPipeModule
   ]
 })
 export class OrderModule { }

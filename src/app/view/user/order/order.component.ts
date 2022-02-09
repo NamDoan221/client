@@ -30,15 +30,13 @@ export class OrderComponent implements OnInit {
     try {
       const result = await this.orderService.getOrderList();
       this.orderData = result.data;
+      console.log(this.orderData);
+      
       this.loading = false;
     } catch (error) {
       this.loading = false;
       console.log(error);
     }
-  }
-
-  backToProduct(event) {
-    this.router.navigate(['product']);
   }
 
 }

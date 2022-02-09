@@ -20,16 +20,15 @@
           </div>
           <div>
             <div class="d-flex align-items-center justify-content-end">
-              <div class="ms-border-general ms-px-6px ms-py-2px ms-cursor-pointer">
+              <div class="ms-border-general ms-px-6px ms-py-2px ms-cursor-pointer" (click)="handlerAddOne(product)">
                 <i nz-icon
                   nzType="plus"
                   nzTheme="outline"
-                  class="ms-font-size-12px"
-                  (click)="handlerAddOne(product)"></i>
+                  class="ms-font-size-12px"></i>
               </div>
               <div class="ms-px-8px ms-py-2px ms-readonly ms-border-top-general ms-border-bottom-general">
                 {{product.quantily | MsFormatNumberPipe}}</div>
-              <div class="ms-border-general ms-px-6px ms-py-2px ms-cursor-pointer">
+              <div class="ms-border-general ms-px-6px ms-py-2px ms-cursor-pointer" (click)="handlerMinusOne(product)">
                 <i nz-icon
                   nzType="minus"
                   nzTheme="outline"
