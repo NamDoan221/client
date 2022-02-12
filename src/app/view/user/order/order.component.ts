@@ -39,4 +39,18 @@ export class OrderComponent implements OnInit {
     }
   }
 
+  async handlerCancelOrder(event) {
+    this.loading = true;
+    try {
+      event.status = -1;
+      const result = await this.orderService.updateOrder(event);
+      let order = this.orderData.find(item => item._id === event._id);
+      order = event;
+      this.loading = false;
+    } catch (error) {
+      this.loading = false;
+      console.log(error);
+    }
+  }
+
 }

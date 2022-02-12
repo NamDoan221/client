@@ -27,9 +27,10 @@
     <div class="ms-font-head-5s">Tên khách hàng</div>
     <div class="ms-font-head-5s">Email</div>
     <div class="ms-font-head-5s">Địa chỉ</div>
+    <div class="ms-font-head-5s">Số điện thoại</div>
   </div>
   <div class="ms-calc-h-44px ms-bg-ffffff ms-border-general ms-border-top-none ms-overflow-auto">
-    <ng-container *ngIf="usersList && usersList.length">
+    <ng-container *ngIf="usersList && usersList.length && !loading">
       <div *ngFor="let data of usersList; index as i;"
         class="grid-box ms-border-bottom-general ms-p-12px position-relative"
         [ngClass]="{'ms-bg-f0f2f5': i === indexHover}"
@@ -41,6 +42,7 @@
         <div class="d-flex align-items-center">{{ data.name }}</div>
         <div class="d-flex align-items-center">{{ data.email }}</div>
         <div class="d-flex align-items-center">{{ data.address ? data.address: '__' }}</div>
+        <div class="d-flex align-items-center">{{ data.phone_number ? data.phone_number: '__' }}</div>
         <div *ngIf="i === indexHover"
           class="position-absolute ms-left-350px ms-top-12px">
           <div class="d-flex">
@@ -57,8 +59,17 @@
         </div>
       </div>
     </ng-container>
-    <ng-container *ngIf="!usersList || !usersList.length">
+    <ng-container *ngIf="(!usersList || !usersList.length) && !loading">
       <div class="d-flex justify-content-center align-items-center h-100">{{'Danh sách trống'}}</div>
+    </ng-container>
+    <ng-container *ngIf="loading">
+      <div class="d-flex justify-content-center align-items-center h-100">
+        <ng-template #indicatorTemplate><i nz-icon
+          nzType="loading"
+          class="ms-font-size-60px"></i></ng-template>
+      <nz-spin nzSimple
+        [nzIndicator]="indicatorTemplate"></nz-spin>
+      </div>
     </ng-container>
   </div>
 </div>
@@ -117,6 +128,16 @@
           nz-input
           placeholder="Nhập địa chỉ"
           [(ngModel)]="userSelected.address" />
+      </nz-input-group>
+    </div>
+    <div class="d-flex flex-column ms-mt-16px">
+      <span class="ms-mb-4px">Số điện thoại</span>
+      <nz-input-group class="w-100">
+        <input type="text"
+          class="ms-border-radius-4px"
+          nz-input
+          placeholder="Nhập số điện thoại"
+          [(ngModel)]="userSelected.phone_number" />
       </nz-input-group>
     </div>
   </ng-container>

@@ -11,6 +11,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 })
 export class UserManagementComponent implements OnInit {
 
+  public loading: boolean;
   public isVisible: boolean;
   public userSelected: any;
   public usersList: Array<any>;
@@ -41,12 +42,15 @@ export class UserManagementComponent implements OnInit {
   }
 
   async getListUsers() {
+    this.loading = true;
     try {
       const result = await this.usersService.getUserList(this.filterUser);
       this.usersList = result.data;
     } catch (error) {
       this.usersList = [];
       console.log(error);
+    } finally {
+      this.loading = false;
     }
   }
 
@@ -73,10 +77,6 @@ export class UserManagementComponent implements OnInit {
   handlerAdd() {
     this.userSelected = cloneDeep(this.userDefault);
     this.isVisible = true;
-  }
-
-  handlerChangeChecked() {
-    this.userSelected.isAdmin = !this.userSelected.isAdmin;
   }
 
   handlerSave() {

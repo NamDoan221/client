@@ -26,6 +26,10 @@ export class ProductListComponent implements OnInit {
       page: 1,
       per_page: 15
     };
+    this.productCategory = [{
+      _id: 'all',
+      name: 'Tất cả'
+    }]
   }
 
   ngOnInit(): void {
@@ -40,9 +44,8 @@ export class ProductListComponent implements OnInit {
   async getProductCategory() {
     try {
       const result = await this.productLibraryService.getProductCategory();
-      this.productCategory = result.data;
+      this.productCategory = [...this.productCategory, ...result.data];
     } catch (error) {
-      this.productCategory = [];
       console.log(error);
     }
   }
@@ -65,7 +68,10 @@ export class ProductListComponent implements OnInit {
   }
 
   handlerSearchByCategory(category) {
-    this.filterProduct.category = category._id;
+    this.filterProduct.category = category.name;
+    if (category._id === 'all') {
+      delete this.filterProduct.category;
+    }
     this.getProductList();
   }
 

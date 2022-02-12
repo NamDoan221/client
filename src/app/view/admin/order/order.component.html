@@ -1,0 +1,98 @@
+<div class="d-flex align-items-center">
+  <div class="ms-max-width-500px ms-py-12px ms-ml-auto">
+    <nz-input-group [nzSuffix]="suffixIconSearch">
+      <input type="text"
+        class="ms-border-radius-4px ms-font-head-5s"
+        nz-input
+        placeholder="Tìm theo tên đơn hàng"
+        [(ngModel)]="filterOrder.search"
+        (change)="handlerSearchOrder($event)" />
+    </nz-input-group>
+    <ng-template #suffixIconSearch>
+      <i nz-icon
+        nzType="search"></i>
+    </ng-template>
+  </div>
+</div>
+
+<div class="ms-calc-h-54px">
+  <div class="grid-box ms-bg-ffffff ms-border-general ms-p-12px">
+    <div class="ms-font-head-5s">Tên đơn hàng</div>
+    <div class="ms-font-head-5s">Tên khách hàng</div>
+    <div class="ms-font-head-5s">Trạng thái</div>
+    <div class="ms-font-head-5s">Tổng tiền</div>
+    <div class="ms-font-head-5s" >Ngày dự kiến giao hàng</div>
+    <div class="ms-font-head-5s" >Ngày dự kiến nhận hàng</div>
+  </div>
+  <div class="ms-calc-h-44px ms-bg-ffffff ms-border-general ms-border-top-none ms-overflow-auto">
+    <ng-container *ngIf="orderList && orderList.length && !loading">
+      <div *ngFor="let data of orderList; index as i;"
+        class="grid-box ms-border-bottom-general ms-p-12px position-relative"
+        [ngClass]="{'ms-bg-f0f2f5': i === indexHover}"
+        (mouseleave)="resetIndexHover($event)"
+        (mouseenter)="setIndexHover($event, i)">
+        <div class="d-flex align-items-center">{{ data.name ? data.name : '__'}}</div>
+        <div class="d-flex align-items-center">{{ data.name_customer ? data.name_customer: '__'}}</div>
+        <div class="d-flex align-items-center">{{ data.status === 0 ? 'Đang chuẩn bị hàng' : data.status === 1 ? 'Đang giao hàng' : data.status === 2 ? 'Đã nhận hàng' : 'Đã hủy'}}</div>
+        <div class="d-flex align-items-center">{{ data.totalMoney | MsFormatNumberPipe }} VNĐ</div>
+        <div class="d-flex align-items-center">{{ data.status === -1 ? '__' : data.preparation_time ? (data.preparation_time | date:'dd/MM/yyyy') : '__' }}</div>
+        <div class="d-flex align-items-center">{{ data.status === -1 ? '__' : data.delivery_time ? (data.delivery_time | date:'dd/MM/yyyy') : '__' }}</div>
+        <div *ngIf="i === indexHover"
+          class="position-absolute ms-left-350px ms-top-4px">
+          <div class="d-flex">
+            <button nz-button
+              nzType="primary"
+              class="ms-font-head-5 ms-mr-12px"
+              (click)="handlerEdit(data)">Sửa thông tin đơn hàng</button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="(!orderList || !orderList.length) && !loading">
+      <div class="d-flex justify-content-center align-items-center h-100">{{'Danh sách trống'}}</div>
+    </ng-container>
+    <ng-container *ngIf="loading">
+      <div class="d-flex justify-content-center align-items-center h-100">
+        <ng-template #indicatorTemplate><i nz-icon
+          nzType="loading"
+          class="ms-font-size-60px"></i></ng-template>
+      <nz-spin nzSimple
+        [nzIndicator]="indicatorTemplate"></nz-spin>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<nz-modal [(nzVisible)]="isVisible"
+  [nzTitle]="'Sửa thông tin đơn hàng'"
+  (nzOnCancel)="handlerCancel()">
+  <ng-container *nzModalContent>
+    <div class="d-flex flex-column">
+      <span class="ms-mb-4px">Trạng thái đơn hàng</span>
+      <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Chọn trạng thái đơn hàng" [(ngModel)]="orderSelected.status">
+        <nz-option *ngFor="let item of statusOrder" [nzLabel]="item.label" [nzValue]="item.key"></nz-option>
+      </nz-select>
+    </div>
+    <div class="d-flex flex-column ms-mt-16px" *ngIf="orderSelected.status === 0">
+      <span class="ms-mb-4px">Ngày dự kiến giao hàng cho đơn vị vẫn chuyển</span>
+      <div class="ms-w-200px">
+        <nz-date-picker nzPlaceHolder="Chọn thời gian" [(ngModel)]="orderSelected.preparation_time" [nzFormat]="'dd/MM/yyyy'"></nz-date-picker>
+      </div>
+    </div>
+    <div class="d-flex flex-column ms-mt-16px" *ngIf="orderSelected.status === 1">
+      <span class="ms-mb-4px">Ngày nhận hàng dự kiến</span>
+      <div class="ms-w-200px">
+        <nz-date-picker nzPlaceHolder="Chọn thời gian" [(ngModel)]="orderSelected.delivery_time" [nzFormat]="'dd/MM/yyyy'"></nz-date-picker>
+      </div>
+    </div>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button
+      nzType="default"
+      (click)="handlerCancel()">Hủy bỏ</button>
+    <button nz-button
+      nzType="primary"
+      (click)="handlerSave()"
+      [nzLoading]="isConfirmLoading">Lưu</button>
+  </div>
+</nz-modal>

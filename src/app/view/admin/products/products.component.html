@@ -26,13 +26,13 @@
   <div class="grid-box ms-bg-ffffff ms-border-general ms-p-12px">
     <div class="ms-font-head-5s">Ảnh sản phẩm</div>
     <div class="ms-font-head-5s">Tên sản phẩm</div>
-    <div class="ms-font-head-5s">Danh mục</div>
+    <div class="ms-font-head-5s">Danh mục sản phẩm</div>
     <div class="ms-font-head-5s">Giá</div>
     <div class="ms-font-head-5s">Tồn kho</div>
     <div class="ms-font-head-5s">Nhà cung cấp</div>
   </div>
   <div class="ms-calc-h-44px ms-bg-ffffff ms-border-general ms-border-top-none ms-overflow-auto">
-    <ng-container *ngIf="productList && productList.length">
+    <ng-container *ngIf="productList && productList.length && !loading">
       <div *ngFor="let data of productList; index as i;"
         class="grid-box ms-border-bottom-general ms-p-12px position-relative"
         [ngClass]="{'ms-bg-f0f2f5': i === indexHover}"
@@ -42,7 +42,7 @@
           <img [src]="data.image"
             class="w-100 h-100" />
         </div>
-        <div class="d-flex align-items-center">{{ data.name }}</div>
+        <div class="d-flex align-items-center">{{ data.name ? data.name : '__'}}</div>
         <div class="d-flex align-items-center">{{ data.category ? data.category: '__'}}</div>
         <div class="d-flex align-items-center">{{ data.price | MsFormatNumberPipe }} VNĐ</div>
         <div class="d-flex align-items-center">{{ data.inventory ? data.inventory : 0 }}</div>
@@ -63,8 +63,17 @@
         </div>
       </div>
     </ng-container>
-    <ng-container *ngIf="!productList || !productList.length">
+    <ng-container *ngIf="(!productList || !productList.length) && !loading">
       <div class="d-flex justify-content-center align-items-center h-100">{{'Danh sách trống'}}</div>
+    </ng-container>
+    <ng-container *ngIf="loading">
+      <div class="d-flex justify-content-center align-items-center h-100">
+        <ng-template #indicatorTemplate><i nz-icon
+          nzType="loading"
+          class="ms-font-size-60px"></i></ng-template>
+      <nz-spin nzSimple
+        [nzIndicator]="indicatorTemplate"></nz-spin>
+      </div>
     </ng-container>
   </div>
 </div>
@@ -94,14 +103,10 @@
       </nz-input-group>
     </div>
     <div class="d-flex flex-column ms-mt-16px">
-      <span class="ms-mb-4px">Danh mục</span>
-      <!-- <nz-input-group class="w-100">
-        <input type="text"
-          class="ms-border-radius-4px"
-          nz-input
-          placeholder="Nhập họ và tên"
-          [(ngModel)]="userSelected.name" />
-      </nz-input-group> -->
+      <span class="ms-mb-4px">Danh mục sản phẩm</span>
+      <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Chọn danh mục sản phẩm" [(ngModel)]="productSelected.category">
+        <nz-option *ngFor="let item of productCategory" [nzLabel]="item.name" [nzValue]="item.name"></nz-option>
+      </nz-select>
     </div>
     <div class="d-flex flex-column ms-mt-16px">
       <span class="ms-mb-4px">Giá</span>

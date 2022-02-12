@@ -1,0 +1,132 @@
+<div class="d-flex h-100 ms-bg-ffffff flex-column ms-p-40px ms-overflow-auto">
+  <div class="d-flex">
+    <div class="ms-h-150px ms-w-150px">
+      <img nz-image
+        class="h-100 w-100 account-img"
+        [nzSrc]="tempAccount.avatar"
+        alt="">
+    </div>
+    <div class="ms-ml-20px d-flex flex-column justify-content-center">
+      <div class="ms-mb-8px">
+        <span>{{tempAccount.name}}</span>
+      </div>
+      <div>
+        <nz-upload nzAction=""
+          [nzFileList]="fileList"
+          [nzAccept]="'image/png,image/jpeg'"
+          [nzFileType]="'image/png,image/jpeg'"
+          (nzChange)="changeAvatar($event)">
+          <button nz-button
+            nzType="primary"><i nz-icon
+              nzType="retweet"
+              nzTheme="outline"></i>Thay đổi ảnh đại diện</button>
+        </nz-upload>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex ms-mt-40px">
+    <div class="w-50 ms-mr-12px">
+      <hn-shared-card [labelTitle]="'Thông tin chung'">
+        <div class="d-flex flex-column">
+          <span class="ms-mb-4px">Tên tài khoản (Email)</span>
+          <nz-input-group class="w-100">
+            <input type="text"
+              class="ms-readonly ms-border-radius-4px"
+              nz-input
+              placeholder="Nhập tên tài khoản"
+              [(ngModel)]="account.email" />
+          </nz-input-group>
+        </div>
+        <div class="d-flex flex-column ms-mt-16px">
+          <span class="ms-mb-4px">Họ và tên</span>
+          <nz-input-group class="w-100">
+            <input type="text"
+              class="ms-border-radius-4px"
+              nz-input
+              placeholder="Nhập họ và tên"
+              [(ngModel)]="account.name" />
+          </nz-input-group>
+        </div>
+        <div class="d-flex flex-column ms-mt-16px">
+          <span class="ms-mb-4px">Số điện thoại</span>
+          <nz-input-group class="w-100">
+            <input type="text"
+              class="ms-border-radius-4px"
+              nz-input
+              placeholder="Nhập số điện thoại"
+              [(ngModel)]="account.phone_number" />
+          </nz-input-group>
+        </div>
+        <div class="d-flex flex-column ms-mt-16px">
+          <span class="ms-mb-4px">Địa chỉ</span>
+          <nz-input-group class="w-100">
+            <input type="text"
+              class="ms-border-radius-4px"
+              nz-input
+              placeholder="Nhập địa chỉ"
+              [(ngModel)]="account.address" />
+          </nz-input-group>
+        </div>
+        <div class="d-flex justify-content-end ms-mt-20px">
+          <button nz-button
+            nzType="primary"
+            (click)="changeInfo()">Cập nhật</button>
+        </div>
+      </hn-shared-card>
+    </div>
+    <div class="w-50 ms-ml-12px">
+      <hn-shared-card [labelTitle]="'Đổi mật khẩu'">
+        <div class="d-flex flex-column">
+          <span class="ms-mb-4px">Mật khẩu hiện tại</span>
+          <nz-input-group [nzSuffix]="suffixTemplateOldPassword"
+            class="w-100 ms-border-radius-4px">
+            <input [type]="oldPasswordVisible ? 'text' : 'password'"
+              nz-input
+              placeholder="Nhập mật khẩu hiện tại"
+              [(ngModel)]="password.old_password" />
+          </nz-input-group>
+          <ng-template #suffixTemplateOldPassword>
+            <i nz-icon
+              [nzType]="oldPasswordVisible ? 'eye-invisible' : 'eye'"
+              (click)="changeViewPass('oldPassword')"></i>
+          </ng-template>
+        </div>
+        <div class="d-flex flex-column ms-mt-20px">
+          <span class="ms-mb-4px">Mật khẩu</span>
+          <nz-input-group [nzSuffix]="suffixTemplateNewPassword"
+            class="w-100 ms-border-radius-4px">
+            <input [type]="newPasswordVisible ? 'text' : 'password'"
+              nz-input
+              placeholder="Nhập mật khẩu mới"
+              [(ngModel)]="password.new_password" />
+          </nz-input-group>
+          <ng-template #suffixTemplateNewPassword>
+            <i nz-icon
+              [nzType]="newPasswordVisible ? 'eye-invisible' : 'eye'"
+              (click)="changeViewPass('newPassword')"></i>
+          </ng-template>
+        </div>
+        <div class="d-flex flex-column ms-mt-20px">
+          <span class="ms-mb-4px">Xác nhận mật khẩu</span>
+          <nz-input-group [nzSuffix]="suffixTemplateReNewPassword"
+            class="w-100 ms-border-radius-4px">
+            <input [type]="reNewPasswordVisible ? 'text' : 'password'"
+              nz-input
+              placeholder="Nhập lại mật khẩu mới"
+              [(ngModel)]="password.renew_password" />
+          </nz-input-group>
+          <ng-template #suffixTemplateReNewPassword>
+            <i nz-icon
+              [nzType]="reNewPasswordVisible ? 'eye-invisible' : 'eye'"
+              (click)="changeViewPass('reNewPassword')"></i>
+          </ng-template>
+        </div>
+        <div class="d-flex justify-content-end ms-mt-20px">
+          <button nz-button
+            nzType="primary"
+            (click)="changePassword()">Cập nhật</button>
+        </div>
+      </hn-shared-card>
+    </div>
+  </div>
+</div>

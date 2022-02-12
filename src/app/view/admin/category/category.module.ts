@@ -11,18 +11,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzModalModule } from 'ng-zorro-antd/modal';
-import { ProductsComponent } from './products.component';
-import { NzSelectModule } from 'ng-zorro-antd/select';
+import { CategoryComponent } from './category.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: ProductsComponent
+    component: CategoryComponent
   }
 ];
 
 @NgModule({
-  declarations: [ProductsComponent],
+  declarations: [CategoryComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -36,8 +35,7 @@ const routes: Routes = [
     NzButtonModule,
     MsFormatNumberPipeModule,
     NzTableModule,
-    NzModalModule,
-    NzSelectModule
+    NzModalModule
   ]
 })
-export class ProductsModule { }
+export class CategoryModule { }

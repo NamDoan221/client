@@ -2,7 +2,7 @@
   <div class="h-100 w-20 ms-bg-ffffff ms-border-general">
     <div class="ms-border-bottom-general ms-p-12px">Đang chuẩn bị</div>
     <div class="ms-calc-h-44px ms-overflow-auto">
-      <app-view-user-order-item class="h-100" [orderData]="orderData" [status]="0"></app-view-user-order-item>
+      <app-view-user-order-item class="h-100" [orderData]="orderData" [status]="0" (onCancelOrder)="handlerCancelOrder($event)"></app-view-user-order-item>
     </div>
   </div>
   <div class="h-100 w-20 ms-bg-ffffff ms-border-general">

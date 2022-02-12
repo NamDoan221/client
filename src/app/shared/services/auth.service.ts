@@ -92,10 +92,10 @@ export class AuthService {
     });
   }
 
-  public changeInfo(body: AccountRegister): Promise<any> {
+  public changeInfo(body: any): Promise<any> {
     const options = this.createHeaderOption();
     return new Promise((resolve, reject) => {
-      this.http.put(`${DOMAIN_SITE()}api/auth/change-info`, body, options).subscribe(result => {
+      this.http.put(`${DOMAIN_SITE()}api/users/${body._id}`, body, options).subscribe(result => {
         return resolve(result);
       }, err => {
         reject(err);

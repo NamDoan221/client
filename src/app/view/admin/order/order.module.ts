@@ -11,18 +11,19 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzModalModule } from 'ng-zorro-antd/modal';
-import { ProductsComponent } from './products.component';
+import { OrderComponent } from './order.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 const routes: Routes = [
   {
     path: '',
-    component: ProductsComponent
+    component: OrderComponent
   }
 ];
 
 @NgModule({
-  declarations: [ProductsComponent],
+  declarations: [OrderComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -37,7 +38,8 @@ const routes: Routes = [
     MsFormatNumberPipeModule,
     NzTableModule,
     NzModalModule,
-    NzSelectModule
+    NzSelectModule,
+    NzDatePickerModule
   ]
 })
-export class ProductsModule { }
+export class OrderModule { }

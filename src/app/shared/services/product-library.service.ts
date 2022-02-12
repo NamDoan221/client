@@ -13,8 +13,11 @@ export class ProductLibraryService {
     private router: Router
   ) { }
 
-  public getProductCategory(): Promise<any> {
+  public getProductCategory(query?: any): Promise<any> {
     const options = this.createHeaderOption();
+    if (query) {
+      options.params = query;
+    }
     return new Promise((resolve, reject) => {
       this.http.get(`${DOMAIN_SITE()}api/category`, options).subscribe(result => {
         return resolve(result);
@@ -62,6 +65,39 @@ export class ProductLibraryService {
     const options = this.createHeaderOption();
     return new Promise((resolve, reject) => {
       this.http.delete(`${DOMAIN_SITE()}api/product/${id_product}`, options).subscribe(result => {
+        return resolve(result);
+      }, err => {
+        reject(err);
+      });
+    });
+  }
+
+  public updateCategory(id_category: string, body: any): Promise<any> {
+    const options = this.createHeaderOption();
+    return new Promise((resolve, reject) => {
+      this.http.put(`${DOMAIN_SITE()}api/category/${id_category}`, body, options).subscribe(result => {
+        return resolve(result);
+      }, err => {
+        reject(err);
+      });
+    });
+  }
+
+  public addCategory(body: any): Promise<any> {
+    const options = this.createHeaderOption();
+    return new Promise((resolve, reject) => {
+      this.http.post(`${DOMAIN_SITE()}api/category/add`, body, options).subscribe(result => {
+        return resolve(result['data']);
+      }, err => {
+        reject(err);
+      });
+    });
+  }
+
+  public deleteCategory(id_category: string): Promise<any> {
+    const options = this.createHeaderOption();
+    return new Promise((resolve, reject) => {
+      this.http.delete(`${DOMAIN_SITE()}api/category/${id_category}`, options).subscribe(result => {
         return resolve(result);
       }, err => {
         reject(err);

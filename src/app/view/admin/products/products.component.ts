@@ -10,11 +10,13 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 })
 export class ProductsComponent implements OnInit {
 
+  public loading: boolean;
   public isVisible: boolean;
   public productSelected: any;
   public productList: Array<any>;
   public filterProduct: any;
   private productDefault: any;
+  public productCategory: Array<any>;
   indexHover: number;
   constructor(
     private productLibraryService: ProductLibraryService,
@@ -34,18 +36,33 @@ export class ProductsComponent implements OnInit {
       supplier: undefined
     };
     this.productSelected = cloneDeep(this.productDefault);
+    this.productCategory = [];
   }
 
   ngOnInit(): void {
     this.getListProducts();
+    this.getListProductCategory();
   }
 
   async getListProducts() {
+    this.loading = true;
     try {
       const result = await this.productLibraryService.getProductList(this.filterProduct);
       this.productList = result.data;
     } catch (error) {
       this.productList = [];
+      console.log(error);
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  async getListProductCategory() {
+    try {
+      const result = await this.productLibraryService.getProductCategory();
+      this.productCategory = result.data;
+    } catch (error) {
+      this.productCategory = [];
       console.log(error);
     }
   }
@@ -73,10 +90,6 @@ export class ProductsComponent implements OnInit {
   handlerAdd() {
     this.productSelected = cloneDeep(this.productDefault);
     this.isVisible = true;
-  }
-
-  handlerChangeChecked() {
-    this.productSelected.isAdmin = !this.productSelected.isAdmin;
   }
 
   handlerSave() {

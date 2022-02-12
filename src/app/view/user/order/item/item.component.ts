@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-view-user-order-item',
@@ -10,13 +10,15 @@ export class ItemComponent implements OnInit {
   @Input() orderData: any;
   @Input() status: number;
 
+  @Output() onCancelOrder = new EventEmitter<any>();
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  handlerCancelOrder() {
-    
+  handlerCancelOrder(event) {
+    this.onCancelOrder.emit(event);
   }
 
 }

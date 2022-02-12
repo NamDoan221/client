@@ -14,11 +14,23 @@
           </div>
         </div>
         <div class="ms-mx-8px d-flex align-items-center"
-          [ngClass]="{'justify-content-between': status === 0, 'justify-content-end': status !== 0}">
-          <div *ngIf="status === 0"><button nz-button
+          [ngClass]="{'justify-content-between': status !== -1, 'justify-content-end': status === -1}">
+          <div *ngIf="status === 0">
+            <div class="ms-mb-4px">Dự kiến thời gian giao cho đơn vị vận chuyển: {{item.preparation_time ?
+              (item.preparation_time | date:'dd/MM/yyyy') : '__'}}</div>
+            <button nz-button
               nzType="primary"
               class="ms-font-head-5 ms-h-24px ms-px-8px"
-              (click)="handlerCancelOrder($event)">Hủy đơn hàng</button></div>
+              (click)="handlerCancelOrder(item)">Hủy đơn hàng</button>
+          </div>
+          <div *ngIf="status === 1">
+            Dự kiến thời gian nhận hàng: {{item.delivery_time ? (item.delivery_time |
+            date:'dd/MM/yyyy') : '__'}}</div>
+          <div *ngIf="status === 2">
+            <button nz-button
+              nzType="primary"
+              class="ms-font-head-5 ms-h-24px ms-px-8px">Đánh giá</button>
+          </div>
           <div class="ms-color-ff5454 text-right"> Tổng tiền: {{item.totalMoney | MsFormatNumberPipe}} VND</div>
         </div>
       </div>

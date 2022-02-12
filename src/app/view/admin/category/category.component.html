@@ -1,0 +1,92 @@
+<div class="d-flex align-items-center">
+  <div>
+    <button nz-button
+      nzType="primary"
+      class="ms-font-head-5"
+      (click)="handlerAdd()"><i nz-icon
+        nzType="plus"></i>Thêm danh mục sản phẩm mới</button>
+  </div>
+  <div class="ms-max-width-500px ms-py-12px ms-ml-auto">
+    <nz-input-group [nzSuffix]="suffixIconSearch">
+      <input type="text"
+        class="ms-border-radius-4px ms-font-head-5s"
+        nz-input
+        placeholder="Tìm theo tên danh mục sản phẩm"
+        [(ngModel)]="filterCategory.search"
+        (change)="handlerSearchCategory($event)" />
+    </nz-input-group>
+    <ng-template #suffixIconSearch>
+      <i nz-icon
+        nzType="search"></i>
+    </ng-template>
+  </div>
+</div>
+
+<div class="ms-calc-h-54px">
+  <div class="grid-box ms-bg-ffffff ms-border-general ms-p-12px">
+    <div class="ms-font-head-5s">Tên danh mục sản phẩm</div>
+  </div>
+  <div class="ms-calc-h-44px ms-bg-ffffff ms-border-general ms-border-top-none ms-overflow-auto">
+    <ng-container *ngIf="categoryList && categoryList.length && !loading">
+      <div *ngFor="let data of categoryList; index as i;"
+        class="grid-box ms-border-bottom-general ms-p-12px position-relative"
+        [ngClass]="{'ms-bg-f0f2f5': i === indexHover}"
+        (mouseleave)="resetIndexHover($event)"
+        (mouseenter)="setIndexHover($event, i)">
+        <div class="d-flex align-items-center">{{ data.name ? data.name : '__'}}</div>
+        <div *ngIf="i === indexHover"
+          class="position-absolute ms-left-350px ms-top-4px">
+          <div class="d-flex">
+            <button nz-button
+              nzType="primary"
+              class="ms-font-head-5 ms-mr-12px"
+              (click)="handlerEdit(data)">Sửa</button>
+            <button nz-button
+              nzType="primary"
+              nzDanger
+              class="ms-font-head-5"
+              (click)="handlerDelete(data)">Xóa</button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="(!categoryList || !categoryList.length) && !loading">
+      <div class="d-flex justify-content-center align-items-center h-100">{{'Danh sách trống'}}</div>
+    </ng-container>
+    <ng-container *ngIf="loading">
+      <div class="d-flex justify-content-center align-items-center h-100">
+        <ng-template #indicatorTemplate><i nz-icon
+          nzType="loading"
+          class="ms-font-size-60px"></i></ng-template>
+      <nz-spin nzSimple
+        [nzIndicator]="indicatorTemplate"></nz-spin>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<nz-modal [(nzVisible)]="isVisible"
+  [nzTitle]="categorySelected._id ? 'Sửa danh mục sản phẩm' : 'Tạo mới danh mục sản phẩm'"
+  (nzOnCancel)="handlerCancel()">
+  <ng-container *nzModalContent>
+    <div class="d-flex flex-column">
+      <span class="ms-mb-4px">Tên danh mục sản phẩm</span>
+      <nz-input-group class="w-100">
+        <input type="text"
+          class="ms-border-radius-4px"
+          nz-input
+          placeholder="Nhập tên danh mục sản phẩm"
+          [(ngModel)]="categorySelected.name" />
+      </nz-input-group>
+    </div>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button
+      nzType="default"
+      (click)="handlerCancel()">Hủy bỏ</button>
+    <button nz-button
+      nzType="primary"
+      (click)="handlerSave()"
+      [nzLoading]="isConfirmLoading">Lưu</button>
+  </div>
+</nz-modal>

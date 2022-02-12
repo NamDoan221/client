@@ -49,6 +49,7 @@ export class UserComponent implements OnInit {
     try {
       const result = await this.auth.logout();
       localStorage.removeItem('access-token');
+      this.router.navigate(['login']);
     } catch (error) {
       this.toast.error('Thao tác thất bại!');
       console.log(error);

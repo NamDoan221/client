@@ -14,11 +14,16 @@ export class OrderService {
     private router: Router
   ) { }
 
-  public getOrderList(): Promise<any> {
+  public getOrderList(query?: any): Promise<any> {
     const options = this.createHeaderOption();
     const tokenDecode = jwt_decode(options.headers['x-access-token']);
     options.params = {
       id_customer: tokenDecode['id']
+    }
+    if (query) {
+      options.params = {
+        ...query
+      }
     }
     return new Promise((resolve, reject) => {
       this.http.get(`${DOMAIN_SITE()}api/order`, options).subscribe(result => {
@@ -33,6 +38,20 @@ export class OrderService {
     const options = this.createHeaderOption();
     return new Promise((resolve, reject) => {
       this.http.post(`${DOMAIN_SITE()}api/order`, body, options).subscribe(result => {
+        return resolve(result);
+      }, err => {
+        reject(err);
+      });
+    });
+  }
+
+  public updateOrder(body: any): Promise<any> {
+    const options = this.createHeaderOption();
+    options.params = {
+      id: body._id
+    }
+    return new Promise((resolve, reject) => {
+      this.http.put(`${DOMAIN_SITE()}api/order`, body, options).subscribe(result => {
         return resolve(result);
       }, err => {
         reject(err);
